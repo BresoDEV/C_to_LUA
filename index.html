@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  *{
+    background-color: #333;
+    color: rgb(255, 255, 255);
+  }
+  textarea {
+    width: 80%;
+    resize: none;
+    padding: 5px;
+    border-radius: 10px;
+  }
+  button{
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    background-color: rgb(100, 177, 107);
+  }
+</style>
+
+<body>
+  <center>
+    <h2>C++ to LUA</h2><br>
+    <textarea name="" id="textarea" cols="30" rows="10" placeholder="C++ code">
+      int array = 100;
+      public int array = 100;
+      public static int array = 100;
+      private int array = 100;
+      private static int array = 100;
+      const char* ed = 'eduardo';
+      string ed2 = 'eduardo2';
+      for (int index = 0; index < array.length; index++) {
+        for (int index = 0; index < array.length; index++) {
+          const element = array[index];
+          element = PLAYER::PLAYER_PED_ID();
+        }
+      }
+      while(index == 0){
+        element = PLAYER::PLAYER_PED_ID(); && element = PLAYER::PLAYER_PED_ID();
+      }
+      while (index == 0){
+        const element = array[index];
+      }
+    </textarea><br>
+    <button id="processar">Processar</button><br>
+    <textarea name="" id="resultado" cols="30" rows="10" placeholder="Result"></textarea>
+  </center>
+</body>
+<script>
+
+  const processar = document.getElementById('processar')
+  const textarea = document.getElementById('textarea')
+  const resultado = document.getElementById('resultado')
+
+  var encontrouFor = 0
+  var tabs = 0
+
+  processar.addEventListener('click', () => {
+
+
+
+    var codigoPronto = ''
+
+
+
+    //console.log(textoProcessado)
+
+    var linhas = textarea.value.split('\n')
+
+
+
+    linhas.forEach(linha => {
+
+      //verificar indentacao pt1
+      for (let i = 0; i < 10; i++) {
+        if (linha.includes('  ')) {
+          linha = linha.replace('  ', '')
+          tabs++
+        }
+      }
+
+      //remover espaços duplos
+      linha = linha.replace(/  /g, '')
+
+      //substitue espaços por $
+      linha = linha.replace(/ /g, '$')
+
+
+
+
+      linha = processarNatives(linha)
+      linha = processarNamespaces(linha)
+      linha = processarFOR_LOOP(linha)
+      linha = processarVARIAVEIS(linha)
+      linha = processarWHILELOOP(linha)
+
+
+
+
+
+
+
+      //limpar '$' da linha que possam ter ficado pra tras
+      for (let i = 0; i < 50; i++) {
+        linha = linha.replace('$', ' ')
+      }
+
+
+      //remove ';' da linha
+      linha = linha.replace(/;/g, '')
+
+      //indentacao pt2
+      for (let index = 0; index < tabs; index++) {
+        linha = '  ' + linha
+      }
+
+      //zera a tabulacao da indentacao
+      tabs = 0;
+
+
+      codigoPronto += linha + '\n'
+
+    });
+
+
+    resultado.value = codigoPronto
+  })
+
+
+  //falta add os nativos
+  function processarNatives(linha) {
+
+    var map = [
+      'PLAYER_PED_ID', 'ENTITY::',
+    ]
+
+    map.forEach(e => {
+      for (let i = 0; i < 100; i++) {
+        if (linha.includes(e)) {
+          linha = linha.replace(e, camelCase(e))
+        }
+        else{
+          break
+        }
+      }
+    });
+
+    return linha
+
+
+    function camelCase(p) {
+      const pt = p.split('_')
+      const r = pt.map((pt, i) => {
+        return pt.charAt(0).toUpperCase() + pt.slice(1).toLowerCase()
+      }).join('')
+      return r
+    }
+
+  }
+
+
+  //falta add os namespaces
+  function processarNamespaces(linha) {
+    var map = [
+      'PLAYER::', 'ENTITY::',
+    ]
+    for (let i = 0; i < 25; i++) {
+      map.forEach(e => {
+        if (linha.includes(e)) {
+          linha = linha.replace(e, '')
+        }
+      });
+    }
+    return linha
+  }
+
+
+
+
+  function processarWHILELOOP(linha) {
+
+    if (linha.includes('while$(')) {
+      linha = linha.replace('(', '')
+      linha = linha.replace('{', '')
+      linha = linha.replace(')', ' then')
+      encontrouFor++
+    }
+    if (linha.includes('while(')) {
+      linha = linha.replace('(', '')
+      linha = linha.replace('{', '')
+      linha = linha.replace(')', ' then')
+      encontrouFor++
+    }
+
+
+
+
+    return linha
+  }
+
+
+
+
+
+
+
+
+  //
+  function processarVARIAVEIS(linha) {
+
+    var map = [
+      'private$', 'public$', 'public$static$', 'private$static$', 'static$'
+    ]
+    map.forEach(e => {
+      if (linha.includes(e)) {
+        linha = linha.replace(e, '')
+      }
+    });
+
+    var map2 = [
+      'int$', 'float$', 'double$', 'const$char$', 'const$char*$', 'const$char$*',
+      'char$', 'long$', 'std::string$', 'string$', 'const$'
+    ]
+    map2.forEach(e => {
+      if (linha.includes(e)) {
+        linha = linha.replace(e, 'local ')
+      }
+    });
+
+
+
+
+    return linha
+  }
+
+
+  //ok
+  function processarFOR_LOOP(linha) {
+    if (linha.includes('for$(')) {
+      var p = linha.split('$')
+      linha = 'for ' + p[2] + ' = ' + p[4] + ', ' + p[7] + ' do'
+      encontrouFor++
+    }
+    if (linha.includes('for(')) {
+      var p = linha.split('$')
+      linha = 'for ' + p[1] + ' = ' + p[3] + ' do'
+      encontrouFor++
+    }
+    if (linha.includes('}')) {
+      if (encontrouFor !== 0) {
+        encontrouFor--
+        linha = linha.replace(/}/g, ' end ')
+      }
+    }
+
+    return linha
+  }
+
+
+</script>
+
+</html>
