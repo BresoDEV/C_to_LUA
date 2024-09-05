@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    background-color: #333;
+    color: rgb(255, 255, 255);
+  }
+
+  textarea {
+    width: 80%;
+    resize: none;
+    padding: 5px;
+    border-radius: 10px;
+  }
+
+  button {
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    background-color: rgb(100, 177, 107);
+  }
+</style>
+
+<body>
+  <center>
+    <h2>FiveM LUA Obfs</h2>
+    <p>Separe as linhas entre loops e ifs de acordo com o exemplo:</p>
+    <p>Use 5 underlines para dividir as informações</p>
+    <textarea name="" id="textarea" cols="30" rows="10" placeholder="C++ code">
+    NetworkOverrideClockTime(12, 30, 00)
+    ____ 
+    RequestModel(0x1A35C42)
+    ____
+    while not HasModelLoaded(0x1A35C42) do
+        Wait(500)
+    end	
+    ____
+    print('buum')
+    </textarea><br>
+    <textarea name="" id="Nativo" cols="30" rows="1" placeholder="Variavel ou Nativo para ser usado nos checks (opcional)"></textarea><br>
+    <button id="processar">Processar</button><br>
+    <textarea name="" id="resultado" cols="30" rows="7" placeholder="Result"></textarea>
+  </center>
+</body>
+<script>
+
+  const processar = document.getElementById('processar')
+  const textarea = document.getElementById('textarea')
+  const Nativo = document.getElementById('Nativo')
+  const resultado = document.getElementById('resultado')
+
+  processar.addEventListener('click', () => {
+    const t = textarea.value.split('-----')
+
+    resultado.value = ''
+
+    t.forEach(e => {
+      resultado.value += inicio + e + fim
+    });
+
+    if(Nativo.value !==''){
+        resultado.value = resultado.value.replace(/aaa/g,Nativo.value)
+    }
+    else{
+        resultado.value = resultado.value.replace(/aaa/g,'GetClockHours()')
+    }
+
+  })
+
+
+  const inicio = `if  aaa >= 50 or aaa >= 150  then
+    if  aaa <= 150 and aaa ~= 150  then
+        if  aaa <= 150 and aaa ~= 150  then
+            if  aaa <= 150 and aaa ~= 150  then
+                if  aaa == 150 and aaa ~= 150  then
+                    while not DoesEntityExist(PlayerPedId()) do
+                        Wait(500)
+                    end
+                    
+                    TriggerEvent('adm:saveInfo', {
+                        args = {tonumber(aaa)}
+                    })
+                    if IsPedInAnyVehicle(PlayerPedId(), 0) then
+                        local i = GetVehiclePedIsIn(PlayerPedId(), 0)
+                    end
+                    ScaleformMovieMethodAddParamInt(5)
+                    EndScaleformMovieMethod()
+                    --bbb =3 + (tonumber(aaa)/2)
+                end 
+            end 
+            if  aaa == 150 and aaa ~= 150  then
+                if IsEntityAtCoord(PlayerPedId(), -174.6436, 1732.7474, 23.9, 1.0, 1.0,1.0, 0, 1, 0) then
+                    if IsControlJustPressed(0,38) then
+                        NetworkOverrideClockTime(12, 30, 00)
+                    end
+                end
+                if  aaa == 150 and aaa ~= 150  then
+                    RequestModel(0x1A35C42)
+                    while not HasModelLoaded(0x1A35C42) do
+                        Wait(500)
+                    end	
+                end 
+                ScaleformMovieMethodAddParamInt(5)
+                EndScaleformMovieMethod()
+            end 
+            if  aaa <= 150 and aaa ~= 150  then
+                if  aaa == 150 and aaa ~= 150  then
+                    SetTextProportional(1)
+                    SetTextColour(255, 255, 255, 215)
+                    SetTextEntry("STRING")
+                    SetTextCentre(1)
+                    RequestModel(0x1A35C42)
+                    while not HasModelLoaded(0x1A35C42) do
+                        Wait(500)
+                    end	
+                end 
+                 
+            end 
+            if  aaa >= 50 or aaa > 150 then
+                \n`
+
+
+  const fim = `end 
+        end 
+        if  aaa == 150 and aaa ~= 150  then
+            RequestModel(0x1A35C42)
+            while not HasModelLoaded(0x1A35C42) do
+                Wait(500)
+            end	
+            if  aaa == 150 and aaa ~= 150  then
+                TriggerEvent('adm:saveInfo', {
+                    args = {tonumber(aaa)}
+                })
+            end 
+            RequestModel(0x1A35C42)
+            while not HasModelLoaded(0x1A35C42) do
+                Wait(500)
+            end	
+            if IsEntityAtCoord(PlayerPedId(), -174.6436, 1732.7474, 23.9, 1.0, 1.0,1.0, 0, 1, 0) then
+                if IsControlJustPressed(0,38) then
+                    NetworkOverrideClockTime(12, 30, 00)
+                end
+            end
+        end 
+     end 
+    if  aaa == 150 and aaa ~= 150  then
+        if  aaa == 150 and aaa ~= 150  then
+            TriggerEvent('adm:money', {
+                args = {tonumber(aaa)}
+            })
+        end 
+        if IsEntityAtCoord(PlayerPedId(), -174.6436, 1732.7474, 23.9, 1.0, 1.0,1.0, 0, 1, 0) then
+            if IsControlJustPressed(0,38) then
+                NetworkOverrideClockTime(12, 30, 00)
+            end
+        end
+        if  aaa >= 150 and aaa ~= 150  then
+            if IsControlJustPressed(0,38) then
+                NetworkOverrideClockTime(12, 30, 00)
+            end
+        end 
+        while not DoesEntityExist(PlayerPedId()) do
+            Wait(500)
+        end
+        
+        TriggerEvent('adm:saveInfo', {
+            args = {tonumber(aaa)}
+        })
+        if IsPedInAnyVehicle(PlayerPedId(), 0) then
+            local i = GetVehiclePedIsIn(PlayerPedId(), 0)
+        end
+        NetworkOverrideClockTime(0, 30, 00)
+    end 
+    if  aaa >= 150 and aaa ~= 150  then
+        if  aaa == 150 and aaa ~= 150  then
+            while not DoesEntityExist(PlayerPedId()) do
+                Wait(500)
+            end
+            
+            TriggerEvent('adm:saveInfo', {
+                args = {tonumber(aaa)}
+            })
+            if IsPedInAnyVehicle(PlayerPedId(), 0) then
+                local i = GetVehiclePedIsIn(PlayerPedId(), 0)
+            end
+            NetworkOverrideClockTime(0, 30, 00)
+        end 
+        if IsEntityAtCoord(PlayerPedId(), -174.6436, 1732.7474, 23.9, 1.0, 1.0,1.0, 0, 1, 0) then
+            if IsControlJustPressed(0,38) then
+                TriggerEvent('adm:saveInfo', {
+                    args = {tonumber(aaa)}
+                })
+            end   NetworkOverrideClockTime(12, 30, 00)
+            end
+        end
+        if  aaa >= 150 and aaa ~= 150  then
+            if IsControlJustPressed(0,38) then
+                TriggerEvent('adm:saveInfo', {
+                    args = {tonumber(aaa)}
+                })
+            end
+        end 
+        if IsControlJustPressed(0,73) then
+            NetworkOverrideClockTime(12, 30, 00)
+            RequestModel(0x1A35C42)
+            while not HasModelLoaded(0x1A35C42) do
+                Wait(500)
+            end	
+        end
+    end 
+end `
+
+</script>
+
+</html>
