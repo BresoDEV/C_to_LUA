@@ -3,18 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geolocalização</title>
+    <title>Mapa com Leaflet</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-    <h1>Obter localização</h1>
+    <h1>Exibir minha localização no mapa</h1>
     <button onclick="getLocation()">Obter minha localização</button>
+    <div id="map"></div>
     <p id="status"></p>
-    <p id="location"></p>
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
+        let map;
+
         function getLocation() {
             const status = document.getElementById('status');
-            const location = document.getElementById('location');
 
             if (navigator.geolocation) {
                 status.textContent = 'Obtendo localização...';
@@ -23,8 +32,23 @@
                     (position) => {
                         const latitude = position.coords.latitude;
                         const longitude = position.coords.longitude;
+
                         status.textContent = 'Localização obtida com sucesso!';
-                        location.textContent = `Latitude: ${latitude}, Longitude: ${longitude}`;
+
+                        // Exibe o mapa centrado nas coordenadas
+                        if (!map) {
+                            map = L.map('map').setView([latitude, longitude], 13);
+                            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                attribution: '© OpenStreetMap'
+                            }).addTo(map);
+                        } else {
+                            map.setView([latitude, longitude], 13);
+                        }
+
+                        // Adiciona um marcador na localização
+                        L.marker([latitude, longitude]).addTo(map)
+                            .bindPopup('Você está aqui!')
+                            .openPopup();
                     },
                     (error) => {
                         status.textContent = 'Erro ao obter localização: ' + error.message;
