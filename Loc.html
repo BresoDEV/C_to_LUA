@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geolocalização</title>
+</head>
+<body>
+    <h1>Obter localização</h1>
+    <button onclick="getLocation()">Obter minha localização</button>
+    <p id="status"></p>
+    <p id="location"></p>
+
+    <script>
+        function getLocation() {
+            const status = document.getElementById('status');
+            const location = document.getElementById('location');
+
+            if (navigator.geolocation) {
+                status.textContent = 'Obtendo localização...';
+
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
+                        status.textContent = 'Localização obtida com sucesso!';
+                        location.textContent = `Latitude: ${latitude}, Longitude: ${longitude}`;
+                    },
+                    (error) => {
+                        status.textContent = 'Erro ao obter localização: ' + error.message;
+                    }
+                );
+            } else {
+                status.textContent = 'Geolocalização não é suportada neste navegador.';
+            }
+        }
+    </script>
+</body>
+</html>
